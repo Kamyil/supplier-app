@@ -9,6 +9,8 @@
   import StatusBadge from '$lib/components/StatusBadge.svelte';
   import { initialReturns, scanPool, suppliers, type ScannedContainer } from '$lib/mock-data';
 
+  let { data } = $props();
+
   type View = 'home' | 'stocks' | 'returns' | 'return-detail';
   let view = $state<View>('home');
   let search = $state('');
@@ -49,7 +51,7 @@
     if (!normalized) return;
     const container = scanPool[normalized];
     if (!container) {
-      scanError = 'Nie znaleziono pojemnika w stanach Impuls. Sprawdź numer i spróbuj ponownie.';
+      scanError = 'Nie znaleziono pojemnika na stanach magazynowych. Sprawdź numer i spróbuj ponownie.';
       return;
     }
     if (!supplierId) supplierId = 'nordchem';
@@ -96,13 +98,13 @@
 </svelte:head>
 
 <div class="min-h-screen bg-paper pb-24">
-  <AppHeader title={titles[view]} onrefresh={refreshMessage} />
+  <AppHeader title={titles[view]} user={data.user} onrefresh={refreshMessage} />
 
   {#if view === 'home'}
     <main class="enter mx-auto max-w-6xl px-4 py-6 sm:py-10">
       <p class="text-[10px] font-semibold uppercase tracking-[.18em] text-signal">Magazyn M01 · zmiana poranna</p>
       <h1 class="mt-2 max-w-xl text-2xl font-bold leading-tight tracking-tight text-ink sm:text-3xl">Co chcesz teraz zrobić?</h1>
-      <p class="mt-2 max-w-xl text-sm leading-relaxed text-slate-500">Stany i dokumenty pochodzą z Impuls ERP. Skanujesz fizyczne pojemniki, system pilnuje dostawcy i numeru serii.</p>
+      <p class="mt-2 max-w-xl text-sm leading-relaxed text-slate-500">Skanujesz fizyczne pojemniki, system pilnuje dostawcy i numeru serii.</p>
 
       <div class="mt-6 grid gap-4 md:grid-cols-2">
         <button onclick={() => navigate('returns')} class="group relative min-h-48 overflow-hidden rounded-2xl bg-signal p-5 text-left text-white shadow-lg shadow-signal/25 transition hover:-translate-y-0.5 hover:shadow-xl">
@@ -306,7 +308,7 @@
       <section class="pop w-full max-w-lg rounded-t-3xl bg-white p-5 shadow-2xl sm:rounded-2xl">
         <div class="mx-auto mb-4 h-1 w-10 rounded-full bg-steel sm:hidden"></div>
         <div class="mb-5 flex items-start justify-between gap-3">
-          <div><p class="text-lg font-bold tracking-tight text-ink">Przyjmij pojemnik</p><p class="mt-0.5 text-xs text-slate-500">Dodatkowa ewidencja w aplikacji, bez dokumentu w Impuls.</p></div>
+          <div><p class="text-lg font-bold tracking-tight text-ink">Przyjmij pojemnik</p><p class="mt-0.5 text-xs text-slate-500">Dodatkowa ewidencja w aplikacji, bez dokumentu w systemie magazynowym.</p></div>
           <button onclick={() => showReceive = false} aria-label="Zamknij" class="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-paper text-slate-500 transition hover:bg-steel hover:text-ink"><X size={17} /></button>
         </div>
         <div class="space-y-4">
@@ -341,7 +343,7 @@
     <div class="fixed inset-0 z-50 overflow-auto bg-chespa-deep p-5 text-white">
       <section class="pop mx-auto w-full max-w-md py-10 text-center sm:py-16">
         <div class="mx-auto grid h-20 w-20 place-items-center rounded-full bg-emerald-400 text-chespa-deep shadow-[0_0_0_10px_rgba(52,211,153,.15)]"><Check size={42} strokeWidth={3} /></div>
-        <p class="mt-6 text-[10px] font-semibold uppercase tracking-[.18em] text-emerald-300">Impuls ERP</p>
+        <p class="mt-6 text-[10px] font-semibold uppercase tracking-[.18em] text-emerald-300">Dokument ZD</p>
         <h2 class="mt-2 text-2xl font-bold tracking-tight">Wydanie zakończone</h2>
         <div class="ticks mx-auto mt-4 h-7 w-44 text-white/35"></div>
         <p class="mt-1 font-mono text-sm font-semibold tracking-widest text-white/85">ZD/004836/26</p>
