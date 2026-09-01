@@ -100,63 +100,66 @@
 
   {#if view === 'home'}
     <main class="enter mx-auto max-w-6xl px-4 py-6 sm:py-10">
-      <section class="mb-6 overflow-hidden rounded-2xl bg-chespa text-white shadow-xl shadow-slate-900/10">
-        <div class="relative px-5 py-6 sm:px-8 sm:py-8">
-          <div class="absolute right-0 top-0 h-full w-28 opacity-10" style="background: repeating-linear-gradient(90deg, transparent 0 8px, white 8px 10px);"></div>
-          <p class="mb-2 text-xs font-semibold uppercase tracking-[.16em] text-orange-300">Magazyn M01 · Zmiana poranna</p>
-          <h1 class="max-w-lg text-2xl font-bold leading-tight sm:text-3xl">Co chcesz teraz zrobić?</h1>
-          <p class="mt-2 max-w-xl text-sm leading-relaxed text-white/65">Stany i dokumenty pochodzą z Impuls ERP. Skanujesz fizyczne pojemniki, system pilnuje dostawcy i numeru serii.</p>
-        </div>
-      </section>
+      <p class="text-[10px] font-semibold uppercase tracking-[.18em] text-signal">Magazyn M01 · zmiana poranna</p>
+      <h1 class="mt-2 max-w-xl text-2xl font-bold leading-tight tracking-tight text-ink sm:text-3xl">Co chcesz teraz zrobić?</h1>
+      <p class="mt-2 max-w-xl text-sm leading-relaxed text-slate-500">Stany i dokumenty pochodzą z Impuls ERP. Skanujesz fizyczne pojemniki, system pilnuje dostawcy i numeru serii.</p>
 
-      <div class="grid gap-4 md:grid-cols-2">
-        <button onclick={() => navigate('stocks')} class="group relative min-h-48 overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg">
-          <span class="mb-8 grid h-12 w-12 place-items-center rounded-xl bg-blue-50 text-chespa"><Warehouse size={25} /></span>
-          <span class="block text-xl font-bold text-chespa">Stany opakowań</span>
-          <span class="mt-1 block text-sm text-slate-500">53 pojemniki u 4 dostawców</span>
-          <span class="absolute bottom-5 right-5 grid h-10 w-10 place-items-center rounded-full bg-slate-100 text-chespa transition group-hover:bg-chespa group-hover:text-white"><ArrowRight size={19} /></span>
+      <div class="mt-6 grid gap-4 md:grid-cols-2">
+        <button onclick={() => navigate('returns')} class="group relative min-h-48 overflow-hidden rounded-2xl bg-signal p-5 text-left text-white shadow-lg shadow-signal/25 transition hover:-translate-y-0.5 hover:shadow-xl">
+          <span class="ticks pointer-events-none absolute -right-4 top-0 h-full w-40 text-black/20 [mask-image:linear-gradient(90deg,transparent,black_55%)]"></span>
+          <span class="mb-8 grid h-12 w-12 place-items-center rounded-xl bg-black/15"><ClipboardList size={24} strokeWidth={1.9} /></span>
+          <span class="block text-xl font-bold tracking-tight">Zwroty do dostawców</span>
+          <span class="mt-1 block text-sm text-white/80">2 otwarte wydania wymagają obsługi</span>
+          <span class="absolute bottom-5 right-5 grid h-10 w-10 place-items-center rounded-full bg-white text-signal transition group-hover:translate-x-0.5"><ArrowRight size={19} /></span>
         </button>
 
-        <button onclick={() => navigate('returns')} class="group relative min-h-48 overflow-hidden rounded-2xl bg-signal p-5 text-left text-white shadow-lg shadow-orange-900/15 transition hover:-translate-y-0.5 hover:shadow-xl">
-          <span class="mb-8 grid h-12 w-12 place-items-center rounded-xl bg-white/15"><ClipboardList size={25} /></span>
-          <span class="block text-xl font-bold">Zwroty do dostawców</span>
-          <span class="mt-1 block text-sm text-white/75">2 otwarte wydania wymagają obsługi</span>
-          <span class="absolute bottom-5 right-5 grid h-10 w-10 place-items-center rounded-full bg-white text-signal"><ArrowRight size={19} /></span>
+        <button onclick={() => navigate('stocks')} class="group relative min-h-48 overflow-hidden rounded-2xl border border-steel bg-white p-5 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg">
+          <span class="mb-8 grid h-12 w-12 place-items-center rounded-xl bg-signal/10 text-signal"><Warehouse size={24} strokeWidth={1.9} /></span>
+          <span class="block text-xl font-bold tracking-tight text-ink">Stany opakowań</span>
+          <span class="mt-1 block text-sm text-slate-500">53 pojemniki u 4 dostawców</span>
+          <span class="absolute bottom-5 right-5 grid h-10 w-10 place-items-center rounded-full bg-paper text-ink transition group-hover:bg-ink group-hover:text-white"><ArrowRight size={19} /></span>
         </button>
       </div>
 
-      <section class="mt-6 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5">
+      <section class="mt-4 rounded-2xl border border-steel bg-white px-4 py-3.5 sm:px-5">
         <div class="flex items-center gap-3">
-          <div class="grid h-10 w-10 place-items-center rounded-xl bg-emerald-50 text-emerald-600"><CheckCircle2 size={21} /></div>
-          <div class="min-w-0 flex-1"><p class="text-sm font-semibold text-slate-800">Synchronizacja działa poprawnie</p><p class="text-xs text-slate-500">Ostatnie pobranie stanów: dzisiaj, 09:16</p></div>
-          <span class="hidden rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-semibold text-emerald-700 sm:block">Online</span>
+          <span class="relative flex h-2 w-2 shrink-0">
+            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60 motion-reduce:animate-none"></span>
+            <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+          </span>
+          <div class="min-w-0 flex-1"><p class="text-sm font-semibold text-ink">Synchronizacja działa poprawnie</p><p class="text-xs text-slate-400">Ostatnie pobranie stanów: <span class="font-mono text-[11px]">dzisiaj, 09:16</span></p></div>
+          <span class="hidden rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-semibold text-emerald-700 ring-1 ring-emerald-200 sm:block">Online</span>
         </div>
       </section>
     </main>
   {:else if view === 'stocks'}
     <main class="enter mx-auto max-w-5xl px-4 py-5 sm:py-8">
-      <button onclick={() => navigate('home')} class="mb-4 flex items-center gap-2 text-sm font-semibold text-chespa hover:text-signal"><ArrowLeft size={18} /> Pulpit</button>
+      <button onclick={() => navigate('home')} class="mb-4 flex items-center gap-2 rounded-lg py-1 text-sm font-semibold text-ink transition hover:text-signal"><ArrowLeft size={17} /> Pulpit</button>
       <div class="mb-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div><p class="text-xs font-semibold uppercase tracking-[.14em] text-signal">Stan na teraz</p><h1 class="mt-1 text-2xl font-bold text-chespa">Opakowania według dostawców</h1><p class="mt-1 text-sm text-slate-500">Widoczni są tylko dostawcy, których pojemniki znajdują się na magazynach Chespa.</p></div>
-        <div class="flex items-baseline gap-2 rounded-xl bg-chespa px-4 py-3 text-white"><span class="text-2xl font-bold">53</span><span class="text-xs text-white/65">pojemniki łącznie</span></div>
+        <div>
+          <p class="text-[10px] font-semibold uppercase tracking-[.18em] text-signal">Stan na teraz</p>
+          <h1 class="mt-1.5 text-2xl font-bold tracking-tight text-ink">Opakowania według dostawców</h1>
+          <p class="mt-1 max-w-md text-sm text-slate-500">Widoczni są tylko dostawcy, których pojemniki znajdują się na magazynach Chespa.</p>
+        </div>
+        <div class="flex w-fit items-baseline gap-2 rounded-xl bg-signal px-4 py-2.5 text-white"><span class="font-mono text-2xl font-bold leading-none">53</span><span class="text-[11px] text-white/80">pojemniki łącznie</span></div>
       </div>
-      <label class="mb-4 flex h-12 items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 shadow-sm focus-within:border-signal">
-        <Search size={19} class="text-slate-400" /><input bind:value={search} class="min-w-0 flex-1 border-0 bg-transparent p-0 text-sm outline-none focus:ring-0" placeholder="Szukaj dostawcy lub kodu" />
+      <label class="mb-4 flex h-12 items-center gap-3 rounded-xl border border-steel bg-white px-4 shadow-sm transition focus-within:border-signal focus-within:ring-2 focus-within:ring-signal/20">
+        <Search size={18} class="shrink-0 text-slate-400" /><input bind:value={search} class="min-w-0 flex-1 border-0 bg-transparent p-0 text-sm text-ink outline-none placeholder:text-slate-400" placeholder="Szukaj dostawcy lub kodu" />
       </label>
       <div class="space-y-3">
         {#each filteredSuppliers as supplier}
-          <article class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-            <button onclick={() => expandedSupplier = expandedSupplier === supplier.id ? null : supplier.id} class="flex w-full items-center gap-3 p-4 text-left sm:p-5">
-              <div class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-blue-50 font-bold text-chespa">{supplier.name.slice(0, 2).toUpperCase()}</div>
-              <div class="min-w-0 flex-1"><p class="truncate text-sm font-semibold text-slate-900 sm:text-base">{supplier.name}</p><p class="mt-0.5 text-xs text-slate-400">{supplier.code} · {supplier.types.length} {supplier.types.length === 1 ? 'rodzaj' : 'rodzaje'}</p></div>
-              <div class="text-right"><p class="text-xl font-bold text-chespa">{supplier.total}</p><p class="text-[10px] text-slate-400">szt.</p></div>
-              <ChevronDown size={19} class={`ml-1 text-slate-400 transition ${expandedSupplier === supplier.id ? 'rotate-180' : ''}`} />
+          <article class="overflow-hidden rounded-2xl border border-steel bg-white shadow-sm">
+            <button onclick={() => expandedSupplier = expandedSupplier === supplier.id ? null : supplier.id} class="flex w-full items-center gap-3 p-4 text-left sm:p-5" aria-expanded={expandedSupplier === supplier.id}>
+              <div class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-ink font-mono text-sm font-bold text-white">{supplier.name.slice(0, 2).toUpperCase()}</div>
+              <div class="min-w-0 flex-1"><p class="truncate text-sm font-semibold text-ink sm:text-base">{supplier.name}</p><p class="mt-0.5 truncate text-xs text-slate-400"><span class="font-mono text-[11px]">{supplier.code}</span> · {supplier.types.length} {supplier.types.length === 1 ? 'rodzaj' : 'rodzaje'}</p></div>
+              <div class="text-right"><p class="font-mono text-xl font-bold leading-tight text-ink">{supplier.total}</p><p class="text-[10px] text-slate-400">szt.</p></div>
+              <ChevronDown size={18} class={`ml-1 shrink-0 text-slate-400 transition ${expandedSupplier === supplier.id ? 'rotate-180' : ''}`} />
             </button>
             {#if expandedSupplier === supplier.id}
-              <div class="border-t border-slate-100 bg-slate-50/60 px-4 py-3 sm:px-5">
+              <div class="border-t border-steel/70 bg-paper/60 px-4 py-3 sm:px-5">
                 {#each supplier.types as type}
-                  <div class="flex items-center gap-3 border-b border-slate-100 py-3 last:border-0">
-                    <Container size={18} class="text-slate-400" /><div class="min-w-0 flex-1"><p class="text-sm font-medium text-slate-700">{type.name}</p><p class="font-mono text-[10px] text-slate-400">{type.index}</p></div><span class="rounded-lg bg-white px-2.5 py-1 text-sm font-bold text-chespa ring-1 ring-slate-200">{type.count}</span>
+                  <div class="flex items-center gap-3 border-b border-steel/60 py-3 last:border-0">
+                    <Container size={17} class="shrink-0 text-slate-400" /><div class="min-w-0 flex-1"><p class="truncate text-sm font-medium text-ink">{type.name}</p><p class="font-mono text-[10px] uppercase text-slate-400">{type.index}</p></div><span class="rounded-lg bg-white px-2.5 py-1 font-mono text-sm font-bold text-ink ring-1 ring-steel">{type.count}</span>
                   </div>
                 {/each}
                 <Button variant="ghost" class="mt-3 w-full" onclick={() => startReturn(supplier.id)}>Rozpocznij zwrot dla tego dostawcy</Button>
@@ -168,120 +171,190 @@
     </main>
   {:else if view === 'returns'}
     <main class="enter mx-auto max-w-6xl px-4 py-5 sm:py-8">
-      <button onclick={() => navigate('home')} class="mb-4 flex items-center gap-2 text-sm font-semibold text-chespa hover:text-signal"><ArrowLeft size={18} /> Pulpit</button>
+      <button onclick={() => navigate('home')} class="mb-4 flex items-center gap-2 rounded-lg py-1 text-sm font-semibold text-ink transition hover:text-signal"><ArrowLeft size={17} /> Pulpit</button>
       <div class="mb-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div><p class="text-xs font-semibold uppercase tracking-[.14em] text-signal">Dokumenty ZD</p><h1 class="mt-1 text-2xl font-bold text-chespa">Zwroty do dostawców</h1><p class="mt-1 text-sm text-slate-500">Możesz wrócić do otwartego wydania albo rozpocząć nowe.</p></div>
-        <Button onclick={() => startReturn()}><span class="flex items-center justify-center gap-2"><CirclePlus size={19} /> Nowe wydanie</span></Button>
+        <div>
+          <p class="text-[10px] font-semibold uppercase tracking-[.18em] text-signal">Dokumenty ZD</p>
+          <h1 class="mt-1.5 text-2xl font-bold tracking-tight text-ink">Zwroty do dostawców</h1>
+          <p class="mt-1 text-sm text-slate-500">Możesz wrócić do otwartego wydania albo rozpocząć nowe.</p>
+        </div>
+        <Button onclick={() => startReturn()}><CirclePlus size={19} /> Nowe wydanie</Button>
       </div>
       <div class="grid gap-3">
         {#each initialReturns as document}
-          <button onclick={() => document.status !== 'completed' && startReturn(document.supplierId)} class="group rounded-2xl border border-slate-200 bg-white p-4 text-left shadow-sm transition hover:border-slate-300 hover:shadow-md disabled:cursor-default sm:p-5">
-            <div class="flex items-start gap-3">
-              <div class={`grid h-11 w-11 shrink-0 place-items-center rounded-xl ${document.status === 'completed' ? 'bg-emerald-50 text-emerald-600' : 'bg-orange-50 text-signal'}`}><FileCheck2 size={22} /></div>
+          <button onclick={() => document.status !== 'completed' && startReturn(document.supplierId)} disabled={document.status === 'completed'} class="group rounded-2xl border border-steel bg-white p-4 text-left shadow-sm transition hover:border-slate-300 hover:shadow-md disabled:cursor-default sm:p-5">
+            <div class="flex items-start gap-3.5">
+              <div class={`grid h-11 w-11 shrink-0 place-items-center rounded-xl ${document.status === 'completed' ? 'bg-emerald-50 text-emerald-600' : 'bg-signal/10 text-signal'}`}><FileCheck2 size={21} strokeWidth={1.9} /></div>
               <div class="min-w-0 flex-1">
-                <div class="flex flex-wrap items-center gap-2"><p class="font-semibold text-slate-900">{document.supplier}</p><StatusBadge status={document.status} /></div>
-                <p class="mt-1 text-xs text-slate-400">{document.createdAt}{document.document ? ` · ${document.document}` : ''}</p>
-                <div class="mt-3 flex items-center gap-4 text-xs text-slate-600"><span class="flex items-center gap-1.5"><Boxes size={15} /> {document.containers} pojemników</span>{#if document.status === 'open'}<span class="font-semibold text-signal">Kontynuuj wydanie</span>{/if}</div>
+                <div class="flex flex-wrap items-center gap-2"><p class="font-semibold tracking-tight text-ink">{document.supplier}</p><StatusBadge status={document.status} /></div>
+                <p class="mt-1 text-xs text-slate-400">{document.createdAt}{#if document.document} · <span class="font-mono text-[11px]">{document.document}</span>{/if}</p>
+                <div class="mt-3 flex items-center gap-4 border-t border-steel/60 pt-3 text-xs text-slate-500"><span class="flex items-center gap-1.5"><Boxes size={14} /> <span class="font-mono font-semibold text-ink">{document.containers}</span> pojemników</span>{#if document.status === 'open'}<span class="font-semibold text-signal">Kontynuuj wydanie</span>{/if}</div>
               </div>
-              {#if document.status !== 'completed'}<ChevronRight size={20} class="mt-2 text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-signal" />{/if}
+              {#if document.status !== 'completed'}<ChevronRight size={19} class="mt-2 shrink-0 text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-signal" />{/if}
             </div>
           </button>
         {/each}
       </div>
-      <Button variant="ghost" class="mt-4 w-full sm:w-auto" onclick={() => showReceive = true}><span class="flex items-center justify-center gap-2"><PackageCheck size={18} /> Przyjmij pojemnik</span></Button>
+      <Button variant="ghost" class="mt-4 w-full sm:w-auto" onclick={() => showReceive = true}><PackageCheck size={18} /> Przyjmij pojemnik</Button>
     </main>
   {:else}
     <main class="enter mx-auto max-w-5xl px-4 py-5 sm:py-8">
-      <button onclick={() => navigate('returns')} class="mb-4 flex items-center gap-2 text-sm font-semibold text-chespa hover:text-signal"><ArrowLeft size={18} /> Lista zwrotów</button>
-      <div class="mb-5"><p class="text-xs font-semibold uppercase tracking-[.14em] text-signal">Bufor dokumentu ZD</p><h1 class="mt-1 text-2xl font-bold text-chespa">{activeSupplier ? activeSupplier.name : 'Nowe wydanie'}</h1></div>
+      <button onclick={() => navigate('returns')} class="mb-4 flex items-center gap-2 rounded-lg py-1 text-sm font-semibold text-ink transition hover:text-signal"><ArrowLeft size={17} /> Lista zwrotów</button>
+      <div class="mb-5">
+        <p class="text-[10px] font-semibold uppercase tracking-[.18em] text-signal">Bufor dokumentu ZD</p>
+        <h1 class="mt-1.5 text-2xl font-bold tracking-tight text-ink">{activeSupplier ? activeSupplier.name : 'Nowe wydanie'}</h1>
+      </div>
 
       <div class="grid gap-5 lg:grid-cols-[minmax(0,1fr)_320px]">
-        <div class="space-y-4">
-          <section class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
-            <div class="mb-3 flex items-center justify-between"><div><p class="text-sm font-semibold text-slate-900">1. Dostawca</p><p class="text-xs text-slate-400">Wybierz ręcznie albo zeskanuj pierwszy pojemnik</p></div>{#if activeSupplier}<span class="flex items-center gap-1 text-xs font-semibold text-emerald-600"><Check size={15} /> Ustalony</span>{/if}</div>
-            <select bind:value={supplierId} disabled={scanned.length > 0} class="h-12 w-full rounded-xl border-slate-200 bg-white text-sm focus:border-signal focus:ring-signal disabled:bg-slate-100 disabled:text-slate-500">
+        <div class="min-w-0 space-y-4">
+          <section class="rounded-2xl border border-steel bg-white p-4 shadow-sm sm:p-5">
+            <div class="mb-3 flex items-center gap-3">
+              <span class="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-signal font-mono text-xs font-bold text-white">1</span>
+              <div class="min-w-0 flex-1"><p class="text-sm font-semibold text-ink">Dostawca</p><p class="text-xs text-slate-400">Wybierz ręcznie albo zeskanuj pierwszy pojemnik</p></div>
+              {#if activeSupplier}<span class="flex shrink-0 items-center gap-1 text-xs font-semibold text-emerald-600"><Check size={14} strokeWidth={2.5} /> Ustalony</span>{/if}
+            </div>
+            <select bind:value={supplierId} disabled={scanned.length > 0} class="h-12 w-full min-w-0 rounded-xl border border-steel bg-surface-2 px-3.5 text-sm text-ink transition focus:border-signal focus:outline-none focus:ring-2 focus:ring-signal/25 disabled:bg-paper disabled:text-slate-400">
               <option value="">Wybierz dostawcę</option>{#each suppliers as supplier}<option value={supplier.id}>{supplier.name}</option>{/each}
             </select>
-            {#if scanned.length > 0}<p class="mt-2 flex items-center gap-1.5 text-xs text-slate-500"><Info size={14} /> Dostawca został zablokowany po dodaniu pierwszego pojemnika.</p>{/if}
+            {#if scanned.length > 0}<p class="mt-2 flex items-center gap-1.5 text-xs text-slate-500"><Info size={14} class="shrink-0" /> Dostawca został zablokowany po dodaniu pierwszego pojemnika.</p>{/if}
           </section>
 
-          <section class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-            <div class="border-b border-slate-100 p-4 sm:p-5"><p class="text-sm font-semibold text-slate-900">2. Skanuj pojemniki</p><p class="text-xs text-slate-400">Zebra wprowadzi kod w aktywne pole. Możesz też wpisać numer ręcznie.</p></div>
-            <form onsubmit={(event) => { event.preventDefault(); addScan(); }} class="bg-chespa p-4 sm:p-5">
-              <label class="flex min-h-14 items-center gap-3 rounded-xl bg-white px-4 shadow-inner">
-                <Barcode size={24} class="shrink-0 text-signal" />
-                <input bind:value={scanCode} class="min-w-0 flex-1 border-0 bg-transparent p-0 font-mono text-base font-semibold uppercase outline-none focus:ring-0" placeholder="Zeskanuj lub wpisz kod" />
-                <button type="submit" class="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-signal text-white"><Plus size={21} /></button>
-              </label>
-              <p class="mt-2 text-[11px] text-white/55">Kod demonstracyjny: IBC-NC-240021 lub PAL-NC-000774</p>
-            </form>
-            {#if scanError}<div class="flex gap-2 border-b border-red-100 bg-red-50 px-4 py-3 text-xs text-red-700"><TriangleAlert size={17} class="shrink-0" />{scanError}</div>{/if}
-            <div class="p-4 sm:p-5">
-              <div class="mb-3 flex items-center justify-between"><p class="text-sm font-semibold text-slate-700">Dodane pojemniki</p><span class="rounded-full bg-chespa px-2.5 py-1 text-xs font-bold text-white">{scanned.length}</span></div>
-              {#if scanned.length === 0}
-                <div class="grid min-h-32 place-items-center rounded-xl border border-dashed border-slate-200 bg-slate-50 text-center"><div><Barcode size={26} class="mx-auto mb-2 text-slate-300" /><p class="text-sm font-medium text-slate-500">Lista jest pusta</p><p class="text-xs text-slate-400">Zeskanuj pierwszy pojemnik</p></div></div>
-              {:else}
-                <div class="space-y-2">
-                  {#each scanned as item, index}
-                    <div class="flex items-center gap-3 rounded-xl border border-slate-100 bg-slate-50 p-3">
-                      <span class="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-white text-xs font-bold text-slate-400 ring-1 ring-slate-200">{index + 1}</span>
-                      <div class="min-w-0 flex-1"><p class="truncate text-sm font-semibold text-slate-800">{item.name}</p><p class="truncate font-mono text-[10px] text-slate-400">{item.serial} · {item.index} · mag. {item.warehouse}</p></div>
-                      <button onclick={() => removeScan(item.serial)} aria-label={`Usuń ${item.serial}`} class="grid h-9 w-9 place-items-center rounded-lg text-slate-400 hover:bg-red-50 hover:text-red-600"><Trash2 size={17} /></button>
-                    </div>
-                  {/each}
+          <section class="overflow-hidden rounded-2xl border border-steel bg-white shadow-sm">
+            <div class="flex items-center gap-3 p-4 sm:px-5">
+              <span class="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-signal font-mono text-xs font-bold text-white">2</span>
+              <div><p class="text-sm font-semibold text-ink">Skanuj pojemniki</p><p class="text-xs text-slate-400">Zebra wprowadzi kod w aktywne pole. Możesz też wpisać numer ręcznie.</p></div>
+            </div>
+            <div class="relative bg-chespa-deep p-4 sm:p-5">
+              <form onsubmit={(event) => { event.preventDefault(); addScan(); }}>
+                <div class="scan-field flex min-h-14 items-center gap-3 rounded-xl bg-white px-4 shadow-inner">
+                  <div class="scan-beam"></div>
+                  <Barcode size={22} class="shrink-0 text-signal" />
+                  <input bind:value={scanCode} class="min-w-0 flex-1 border-0 bg-transparent p-0 font-mono text-base font-semibold uppercase tracking-wide text-ink caret-signal outline-none placeholder:font-sans placeholder:font-normal placeholder:normal-case placeholder:tracking-normal placeholder:text-slate-400" placeholder="Zeskanuj lub wpisz kod" aria-label="Kod pojemnika" />
+                  <button type="submit" aria-label="Dodaj pojemnik" class="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-signal text-white transition hover:bg-signal-deep active:scale-95"><Plus size={20} /></button>
                 </div>
+              </form>
+              <p class="mt-2.5 font-mono text-[11px] text-white/45">Kody demonstracyjne: IBC-NC-240021 · PAL-NC-000774</p>
+            </div>
+            {#if scanError}<div class="flex gap-2 border-b border-red-100 bg-red-50 px-4 py-3 text-xs leading-relaxed text-red-700 sm:px-5"><TriangleAlert size={16} class="mt-0.5 shrink-0" />{scanError}</div>{/if}
+            <div class="p-4 sm:p-5">
+              <div class="mb-3 flex items-center justify-between">
+                <p class="text-sm font-semibold text-ink">Dodane pojemniki</p>
+                <span class="rounded-full bg-ink px-2.5 py-0.5 font-mono text-xs font-bold text-white">{scanned.length}</span>
+              </div>
+              {#if scanned.length === 0}
+                <div class="grid min-h-32 place-items-center rounded-xl border border-dashed border-steel bg-paper/70 text-center">
+                  <div><Barcode size={26} class="mx-auto mb-2 text-slate-300" /><p class="text-sm font-medium text-slate-500">Lista jest pusta</p><p class="text-xs text-slate-400">Zeskanuj pierwszy pojemnik</p></div>
+                </div>
+              {:else}
+                <ul class="space-y-2">
+                  {#each scanned as item, index}
+                    <li class="pop flex items-center gap-3 rounded-xl border border-steel/70 bg-paper/70 p-3">
+                      <span class="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-white font-mono text-xs font-bold text-slate-400 ring-1 ring-steel">{index + 1}</span>
+                      <div class="min-w-0 flex-1"><p class="truncate text-sm font-semibold text-ink">{item.name}</p><p class="truncate font-mono text-[10px] uppercase text-slate-400">{item.serial} · {item.index} · mag. {item.warehouse}</p></div>
+                      <button onclick={() => removeScan(item.serial)} aria-label={`Usuń ${item.serial}`} class="grid h-9 w-9 shrink-0 place-items-center rounded-lg text-slate-400 transition hover:bg-red-50 hover:text-red-600"><Trash2 size={16} /></button>
+                    </li>
+                  {/each}
+                </ul>
               {/if}
             </div>
           </section>
         </div>
 
-        <aside class="h-fit rounded-2xl bg-chespa p-5 text-white shadow-xl shadow-slate-900/10 lg:sticky lg:top-24">
-          <p class="text-xs font-semibold uppercase tracking-[.14em] text-white/50">Podsumowanie wydania</p>
-          <p class="mt-3 text-4xl font-bold">{scanned.length}</p><p class="text-sm text-white/60">pojemników w buforze</p>
+        <aside class="h-fit min-w-0 rounded-2xl bg-chespa p-5 text-white shadow-xl shadow-ink/20 lg:sticky lg:top-24">
+          <div class="flex items-start justify-between">
+            <p class="text-[10px] font-semibold uppercase tracking-[.18em] text-white/50">Podsumowanie wydania</p>
+            <Barcode size={16} class="text-white/30" />
+          </div>
+          <p class="mt-3 font-mono text-4xl font-bold leading-none">{scanned.length}</p>
+          <p class="mt-1.5 text-sm text-white/60">pojemników w buforze</p>
           <div class="my-5 h-px bg-white/10"></div>
-          <div class="space-y-3 text-xs"><div class="flex justify-between gap-3"><span class="text-white/50">Dostawca</span><span class="truncate text-right font-semibold">{activeSupplier?.name ?? 'Nie wybrano'}</span></div><div class="flex justify-between"><span class="text-white/50">Dokument</span><span class="font-semibold">ZD · wersja robocza</span></div><div class="flex justify-between"><span class="text-white/50">Magazyn docelowy</span><span class="font-semibold">M-ZWROTY</span></div></div>
+          <dl class="space-y-3 text-xs">
+            <div class="flex justify-between gap-3"><dt class="text-white/50">Dostawca</dt><dd class="truncate text-right font-semibold">{activeSupplier?.name ?? 'Nie wybrano'}</dd></div>
+            <div class="flex justify-between"><dt class="text-white/50">Dokument</dt><dd class="font-mono font-semibold">ZD · wersja robocza</dd></div>
+            <div class="flex justify-between"><dt class="text-white/50">Magazyn docelowy</dt><dd class="font-mono font-semibold">M-ZWROTY</dd></div>
+          </dl>
           <Button class="mt-6 w-full" disabled={!activeSupplier || scanned.length === 0} onclick={() => showFinish = true}>Zamknij wydanie</Button>
-          <button onclick={() => { toast = 'Wydanie zapisane. Możesz wrócić do niego później.'; setTimeout(() => toast = '', 2200); }} class="mt-3 w-full text-center text-xs font-semibold text-white/65 hover:text-white">Zapisz i dokończ później</button>
+          <button onclick={() => { toast = 'Wydanie zapisane. Możesz wrócić do niego później.'; setTimeout(() => toast = '', 2200); }} class="mt-3 w-full rounded-lg py-1.5 text-center text-xs font-semibold text-white/65 transition hover:text-white">Zapisz i dokończ później</button>
         </aside>
       </div>
     </main>
   {/if}
 
-  <nav class="safe-bottom fixed inset-x-0 bottom-0 z-30 border-t border-slate-200 bg-white/95 px-3 pt-2 shadow-[0_-6px_24px_rgba(15,23,42,.08)] backdrop-blur">
+  <nav class="safe-bottom fixed inset-x-0 bottom-0 z-30 border-t border-steel bg-white/95 px-3 backdrop-blur" aria-label="Nawigacja główna">
     <div class="mx-auto grid max-w-md grid-cols-3">
-      <button onclick={() => navigate('home')} class={`flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-semibold ${view === 'home' ? 'text-signal' : 'text-slate-400'}`}><Boxes size={20} /> Pulpit</button>
-      <button onclick={() => navigate('stocks')} class={`flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-semibold ${view === 'stocks' ? 'text-signal' : 'text-slate-400'}`}><Warehouse size={20} /> Stany</button>
-      <button onclick={() => navigate('returns')} class={`flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-semibold ${view === 'returns' || view === 'return-detail' ? 'text-signal' : 'text-slate-400'}`}><History size={20} /> Zwroty</button>
+      <button onclick={() => navigate('home')} aria-current={view === 'home' ? 'page' : undefined} class={`relative flex min-h-14 flex-col items-center justify-center gap-1 text-[10px] font-semibold transition ${view === 'home' ? 'text-signal' : 'text-slate-400 hover:text-slate-600'}`}>
+        {#if view === 'home'}<span class="absolute top-0 h-[3px] w-8 rounded-full bg-signal"></span>{/if}
+        <Boxes size={20} strokeWidth={view === 'home' ? 2.2 : 1.8} /> Pulpit
+      </button>
+      <button onclick={() => navigate('stocks')} aria-current={view === 'stocks' ? 'page' : undefined} class={`relative flex min-h-14 flex-col items-center justify-center gap-1 text-[10px] font-semibold transition ${view === 'stocks' ? 'text-signal' : 'text-slate-400 hover:text-slate-600'}`}>
+        {#if view === 'stocks'}<span class="absolute top-0 h-[3px] w-8 rounded-full bg-signal"></span>{/if}
+        <Warehouse size={20} strokeWidth={view === 'stocks' ? 2.2 : 1.8} /> Stany
+      </button>
+      <button onclick={() => navigate('returns')} aria-current={view === 'returns' || view === 'return-detail' ? 'page' : undefined} class={`relative flex min-h-14 flex-col items-center justify-center gap-1 text-[10px] font-semibold transition ${view === 'returns' || view === 'return-detail' ? 'text-signal' : 'text-slate-400 hover:text-slate-600'}`}>
+        {#if view === 'returns' || view === 'return-detail'}<span class="absolute top-0 h-[3px] w-8 rounded-full bg-signal"></span>{/if}
+        <History size={20} strokeWidth={view === 'returns' || view === 'return-detail' ? 2.2 : 1.8} /> Zwroty
+      </button>
     </div>
   </nav>
 
-  {#if toast}<div class="fixed bottom-24 left-1/2 z-50 -translate-x-1/2 rounded-xl bg-slate-900 px-4 py-3 text-center text-xs font-semibold text-white shadow-xl">{toast}</div>{/if}
+  {#if toast}
+    <div class="pop fixed bottom-24 left-1/2 z-50 -translate-x-1/2 rounded-xl bg-ink px-4 py-3 text-center text-xs font-semibold text-white shadow-xl shadow-ink/40">{toast}</div>
+  {/if}
 
   {#if showReceive}
-    <div class="fixed inset-0 z-50 grid place-items-end bg-slate-950/45 p-0 sm:place-items-center sm:p-4" role="presentation">
-      <section class="w-full max-w-lg rounded-t-3xl bg-white p-5 shadow-2xl sm:rounded-2xl">
-        <div class="mb-5 flex items-start justify-between"><div><p class="text-lg font-bold text-chespa">Przyjmij pojemnik</p><p class="text-xs text-slate-500">Dodatkowa ewidencja w aplikacji, bez dokumentu w Impuls.</p></div><button onclick={() => showReceive = false} class="grid h-9 w-9 place-items-center rounded-lg bg-slate-100 text-slate-500"><X size={18} /></button></div>
-        <div class="space-y-4"><label class="block text-xs font-semibold text-slate-600">Dostawca<select class="mt-1.5 h-12 w-full rounded-xl border-slate-200 text-sm focus:border-signal focus:ring-signal"><option>NordChem Polska Sp. z o.o.</option><option>Coloris Industrial GmbH</option></select></label><label class="block text-xs font-semibold text-slate-600">Numer pojemnika<input value="IBC-NC-240031" class="mt-1.5 h-12 w-full rounded-xl border-slate-200 font-mono text-sm focus:border-signal focus:ring-signal" /></label></div>
+    <div class="fixed inset-0 z-50 grid place-items-end bg-ink/45 p-0 backdrop-blur-[2px] sm:place-items-center sm:p-4" role="presentation">
+      <section class="pop w-full max-w-lg rounded-t-3xl bg-white p-5 shadow-2xl sm:rounded-2xl">
+        <div class="mx-auto mb-4 h-1 w-10 rounded-full bg-steel sm:hidden"></div>
+        <div class="mb-5 flex items-start justify-between gap-3">
+          <div><p class="text-lg font-bold tracking-tight text-ink">Przyjmij pojemnik</p><p class="mt-0.5 text-xs text-slate-500">Dodatkowa ewidencja w aplikacji, bez dokumentu w Impuls.</p></div>
+          <button onclick={() => showReceive = false} aria-label="Zamknij" class="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-paper text-slate-500 transition hover:bg-steel hover:text-ink"><X size={17} /></button>
+        </div>
+        <div class="space-y-4">
+          <label class="block text-xs font-semibold text-slate-300">Dostawca
+            <select class="mt-1.5 h-12 w-full min-w-0 rounded-xl border border-steel bg-surface-2 px-3.5 text-sm text-ink focus:border-signal focus:outline-none focus:ring-2 focus:ring-signal/25"><option>NordChem Polska Sp. z o.o.</option><option>Coloris Industrial GmbH</option></select>
+          </label>
+          <label class="block text-xs font-semibold text-slate-600">Numer pojemnika
+            <input value="IBC-NC-240031" class="mt-1.5 h-12 w-full rounded-xl border border-steel bg-surface-2 px-3.5 font-mono text-sm uppercase text-ink caret-signal focus:border-signal focus:outline-none focus:ring-2 focus:ring-signal/25" />
+          </label>
+        </div>
         <Button class="mt-5 w-full" onclick={() => { showReceive = false; toast = 'Pojemnik przyjęty do ewidencji'; setTimeout(() => toast = '', 1800); }}>Przyjmij pojemnik</Button>
       </section>
     </div>
   {/if}
 
   {#if showFinish}
-    <div class="fixed inset-0 z-50 grid place-items-center bg-slate-950/50 p-4">
-      <section class="w-full max-w-md rounded-2xl bg-white p-5 shadow-2xl">
-        <div class="grid h-12 w-12 place-items-center rounded-xl bg-orange-50 text-signal"><FileCheck2 size={25} /></div>
-        <h2 class="mt-4 text-xl font-bold text-chespa">Zamknąć wydanie?</h2>
+    <div class="fixed inset-0 z-50 grid place-items-center bg-ink/45 p-4 backdrop-blur-[2px]">
+      <section class="pop w-full max-w-md rounded-2xl bg-white p-5 shadow-2xl">
+        <div class="grid h-12 w-12 place-items-center rounded-xl bg-signal/10 text-signal"><FileCheck2 size={24} strokeWidth={1.9} /></div>
+        <h2 class="mt-4 text-xl font-bold tracking-tight text-ink">Zamknąć wydanie?</h2>
         <p class="mt-2 text-sm leading-relaxed text-slate-500">System sprawdzi magazyny, utworzy potrzebne przesunięcia MM i zapisze dokument ZD dla {activeSupplier?.name}.</p>
-        <div class="mt-4 rounded-xl bg-slate-50 p-3 text-xs text-slate-600"><div class="flex justify-between"><span>Pojemniki</span><strong>{scanned.length} szt.</strong></div><div class="mt-2 flex justify-between"><span>Pozostanie na stanie dostawcy</span><strong>{Math.max((activeSupplier?.total ?? 0) - scanned.length, 0)} szt.</strong></div></div>
+        <div class="mt-4 rounded-xl bg-paper p-3.5 text-xs text-slate-600">
+          <div class="flex justify-between"><span>Pojemniki</span><strong class="font-mono">{scanned.length} szt.</strong></div>
+          <div class="mt-2 flex justify-between"><span>Pozostanie na stanie dostawcy</span><strong class="font-mono">{Math.max((activeSupplier?.total ?? 0) - scanned.length, 0)} szt.</strong></div>
+        </div>
         <div class="mt-5 grid grid-cols-2 gap-3"><Button variant="ghost" onclick={() => showFinish = false}>Wróć</Button><Button onclick={finishReturn}>Zamknij wydanie</Button></div>
       </section>
     </div>
   {/if}
 
   {#if showSuccess}
-    <div class="fixed inset-0 z-50 grid place-items-center bg-chespa p-5 text-white">
-      <section class="w-full max-w-md text-center"><div class="mx-auto grid h-20 w-20 place-items-center rounded-full bg-emerald-400 text-chespa"><Check size={42} strokeWidth={3} /></div><p class="mt-6 text-xs font-semibold uppercase tracking-[.16em] text-emerald-300">Impuls ERP</p><h2 class="mt-2 text-2xl font-bold">Wydanie zakończone</h2><p class="mt-2 text-sm text-white/65">Utworzono dokument ZD/004836/26. Wszystkie pojemniki zostały zdjęte ze stanów magazynowych.</p><div class="mt-6 rounded-2xl bg-white/10 p-4 text-left text-sm"><div class="flex justify-between"><span class="text-white/55">Dokument</span><strong>ZD/004836/26</strong></div><div class="mt-3 flex justify-between"><span class="text-white/55">Liczba pojemników</span><strong>{scanned.length} szt.</strong></div></div><Button class="mt-6 w-full" onclick={resetReturn}>Wróć do listy zwrotów</Button></section>
+    <div class="fixed inset-0 z-50 overflow-auto bg-chespa-deep p-5 text-white">
+      <section class="pop mx-auto w-full max-w-md py-10 text-center sm:py-16">
+        <div class="mx-auto grid h-20 w-20 place-items-center rounded-full bg-emerald-400 text-chespa-deep shadow-[0_0_0_10px_rgba(52,211,153,.15)]"><Check size={42} strokeWidth={3} /></div>
+        <p class="mt-6 text-[10px] font-semibold uppercase tracking-[.18em] text-emerald-300">Impuls ERP</p>
+        <h2 class="mt-2 text-2xl font-bold tracking-tight">Wydanie zakończone</h2>
+        <div class="ticks mx-auto mt-4 h-7 w-44 text-white/35"></div>
+        <p class="mt-1 font-mono text-sm font-semibold tracking-widest text-white/85">ZD/004836/26</p>
+        <p class="mx-auto mt-4 max-w-xs text-sm leading-relaxed text-white/60">Utworzono dokument ZD/004836/26. Wszystkie pojemniki zostały zdjęte ze stanów magazynowych.</p>
+        <div class="mt-6 rounded-2xl bg-white/10 p-4 text-left text-sm">
+          <div class="flex justify-between"><span class="text-white/55">Dokument</span><strong class="font-mono">ZD/004836/26</strong></div>
+          <div class="mt-3 flex justify-between"><span class="text-white/55">Liczba pojemników</span><strong class="font-mono">{scanned.length} szt.</strong></div>
+        </div>
+        <div class="mt-6 grid gap-3 sm:grid-cols-2">
+          <button onclick={resetReturn} class="min-h-12 rounded-xl border border-white/25 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10">Nowe wydanie</button>
+          <Button onclick={resetReturn}>Wróć do listy zwrotów</Button>
+        </div>
+      </section>
     </div>
   {/if}
 </div>

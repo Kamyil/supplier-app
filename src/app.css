@@ -9,6 +9,13 @@
 
 @font-face {
   font-family: 'Poppins';
+  src: url('/fonts/Poppins-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Poppins';
   src: url('/fonts/Poppins-SemiBold.woff') format('woff');
   font-weight: 600;
   font-display: swap;
@@ -23,30 +30,61 @@
 
 @theme {
   --font-sans: 'Poppins', ui-sans-serif, system-ui, sans-serif;
-  --color-chespa: #172f55;
-  --color-chespa-deep: #10233f;
+  --font-mono: ui-monospace, 'Cascadia Mono', 'Roboto Mono', 'SF Mono', Consolas, monospace;
+  --color-chespa: #141b26;
+  --color-chespa-deep: #0e1624;
   --color-signal: #f36f2a;
-  --color-paper: #f4f6f8;
-  --color-ink: #172230;
+  --color-signal-deep: #d95a1a;
+  --color-paper: #f2f4f8;
+  --color-surface: #ffffff;
+  --color-surface-2: #f5f7fa;
+  --color-steel: #e2e7ee;
+  --color-ink: #1a2432;
 }
 
 :root {
   font-family: 'Poppins', ui-sans-serif, system-ui, sans-serif;
-  color: #172230;
-  background: #f4f6f8;
+  color: #1a2432;
+  background: #f2f4f8;
   font-synthesis: none;
 }
 
-html, body { margin: 0; min-height: 100%; background: #f4f6f8; }
-button, input { font: inherit; }
+html, body { margin: 0; min-height: 100%; background: #f2f4f8; }
+button, input, select { font: inherit; }
 button { cursor: pointer; }
-button:focus-visible, input:focus-visible { outline: 3px solid rgba(243, 111, 42, .35); outline-offset: 2px; }
+button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible {
+  outline: 3px solid rgba(243, 111, 42, .4);
+  outline-offset: 2px;
+}
 
 .safe-bottom { padding-bottom: max(0.75rem, env(safe-area-inset-bottom)); }
 .no-scrollbar { scrollbar-width: none; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
 
+/* Barcode-tick texture: irregular marks, inherits currentColor */
+.ticks {
+  background-image: repeating-linear-gradient(90deg,
+    currentColor 0 2px, transparent 2px 5px,
+    currentColor 5px 6px, transparent 6px 12px,
+    currentColor 12px 15px, transparent 15px 18px,
+    currentColor 18px 19px, transparent 19px 25px);
+}
+
+/* Scanner beam — sweeps only while the scan field holds focus */
+.scan-field { position: relative; overflow: hidden; }
+.scan-beam {
+  position: absolute; top: 0; bottom: 0; left: -45%; width: 38%;
+  background: linear-gradient(90deg, transparent, rgba(243, 111, 42, .18) 70%, rgba(243, 111, 42, .45));
+  border-right: 2px solid rgba(243, 111, 42, .85);
+  pointer-events: none; opacity: 0;
+}
+.scan-field:focus-within .scan-beam { opacity: 1; }
+
 @media (prefers-reduced-motion: no-preference) {
   .enter { animation: enter .32s ease-out both; }
   @keyframes enter { from { opacity: 0; transform: translateY(8px); } }
+  .scan-field:focus-within .scan-beam { animation: sweep 1.5s ease-in-out infinite; }
+  @keyframes sweep { from { transform: translateX(0); } to { transform: translateX(400%); } }
+  .pop { animation: pop .3s cubic-bezier(.2, .9, .3, 1.4) both; }
+  @keyframes pop { from { opacity: 0; transform: translateY(10px) scale(.97); } }
 }
