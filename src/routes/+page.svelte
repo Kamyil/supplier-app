@@ -1,21 +1,23 @@
 <script lang="ts">
   import {
-    ArrowLeft, ArrowRight, Barcode, Boxes, Check, CheckCircle2, ChevronDown, ChevronRight,
+    ArrowLeft, ArrowRight, Barcode, Boxes, Check, ChevronDown, ChevronRight,
     CirclePlus, ClipboardList, Container, FileCheck2, History, Info, PackageCheck, Plus,
     Search, Trash2, TriangleAlert, Warehouse, X
   } from 'lucide-svelte';
   import AppHeader from '$lib/components/AppHeader.svelte';
   import Button from '$lib/components/Button.svelte';
   import StatusBadge from '$lib/components/StatusBadge.svelte';
-  import { initialReturns, scanPool, suppliers, type ScannedContainer } from '$lib/mock-data';
+  import { allContainers, initialReturns, scanPool, suppliers, type ScannedContainer } from '$lib/mock-data';
 
   let { data } = $props();
-
   type View = 'home' | 'stocks' | 'returns' | 'return-detail';
+  type ReturnTab = 'scan' | 'list';
   let view = $state<View>('home');
+  let returnTab = $state<ReturnTab>('scan');
   let search = $state('');
   let scanCode = $state('');
   let supplierId = $state('');
+  let selectedExisting = $state<string[]>([]);
   let scanned = $state<ScannedContainer[]>([]);
   let scanError = $state('');
   let showReceive = $state(false);
@@ -28,68 +30,30 @@
   let filteredSuppliers = $derived(suppliers.filter((supplier) =>
     supplier.name.toLowerCase().includes(search.toLowerCase()) || supplier.code.toLowerCase().includes(search.toLowerCase())
   ));
-
+  let availableContainers = $derived(allContainers.filter((item) => item.supplierId === supplierId && !scanned.some((current) => current.serial === item.serial)));
   const titles: Record<View, string> = {
     home: 'Opakowania zwrotne', stocks: 'Stany opakowań', returns: 'Zwroty do dostawców', 'return-detail': 'Nowe wydanie'
   };
-
-  function navigate(next: View) {
-    view = next;
-    search = '';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  function startReturn(id = '') {
-    supplierId = id;
-    scanned = id === 'nordchem' ? [scanPool['IBC-NC-240018'], scanPool['BEC-NC-008419']] : [];
-    scanError = '';
-    navigate('return-detail');
-  }
-
+  function navigate(next: View) { view = next; search = ''; window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  function startReturn(id = '') { supplierId = id; scanned = id === 'nordchem' ? [scanPool['IBC-NC-240018'], scanPool['BEC-NC-008419']] : []; selectedExisting = []; scanError = ''; navigate('return-detail'); }
   function addScan() {
-    const normalized = scanCode.trim().toUpperCase();
-    if (!normalized) return;
+    const normalized = scanCode.trim().toUpperCase(); if (!normalized) return;
     const container = scanPool[normalized];
-    if (!container) {
-      scanError = 'Nie znaleziono pojemnika na stanach magazynowych. Sprawdź numer i spróbuj ponownie.';
-      return;
-    }
-    if (!supplierId) supplierId = 'nordchem';
-    if (supplierId !== 'nordchem') {
-      scanError = 'Ten pojemnik należy do NordChem Polska. Nie można go dodać do bieżącego wydania.';
-      return;
-    }
-    if (scanned.some((item) => item.serial === container.serial)) {
-      scanError = 'Ten pojemnik jest już na liście wydania.';
-      return;
-    }
-    scanned = [container, ...scanned];
-    scanCode = '';
-    scanError = '';
-    toast = `Dodano ${container.serial}`;
-    setTimeout(() => toast = '', 1800);
+    if (!container) { scanError = 'Nie znaleziono pojemnika na stanach magazynowych. Sprawdź numer i spróbuj ponownie.'; return; }
+    if (!supplierId) supplierId = container.supplierId;
+    if (container.supplierId !== supplierId) { scanError = 'Ten pojemnik należy do innego dostawcy. Nie można go dodać do bieżącego wydania.'; return; }
+    if (scanned.some((item) => item.serial === container.serial)) { scanError = 'Ten pojemnik jest już na liście wydania.'; return; }
+    scanned = [container, ...scanned]; scanCode = ''; scanError = ''; toast = `Dodano ${container.serial}`; setTimeout(() => toast = '', 1800);
   }
-
-  function removeScan(serial: string) {
-    scanned = scanned.filter((item) => item.serial !== serial);
+  function addSelected() {
+    const additions = availableContainers.filter((item) => selectedExisting.includes(item.serial));
+    if (additions.length) scanned = [...additions, ...scanned];
+    selectedExisting = [];
   }
-
-  function finishReturn() {
-    showFinish = false;
-    showSuccess = true;
-  }
-
-  function resetReturn() {
-    showSuccess = false;
-    supplierId = '';
-    scanned = [];
-    navigate('returns');
-  }
-
-  function refreshMessage() {
-    toast = 'Dane zsynchronizowane z Impuls ERP';
-    setTimeout(() => toast = '', 1800);
-  }
+  function removeScan(serial: string) { scanned = scanned.filter((item) => item.serial !== serial); }
+  function finishReturn() { showFinish = false; showSuccess = true; }
+  function resetReturn() { showSuccess = false; supplierId = ''; scanned = []; navigate('returns'); }
+  function refreshMessage() { toast = 'Dane zsynchronizowane z Impuls ERP'; setTimeout(() => toast = '', 1800); }
 </script>
 
 <svelte:head>
@@ -118,7 +82,7 @@
         <button onclick={() => navigate('stocks')} class="group relative min-h-48 overflow-hidden rounded-2xl border border-steel bg-white p-5 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg">
           <span class="mb-8 grid h-12 w-12 place-items-center rounded-xl bg-signal/10 text-signal"><Warehouse size={24} strokeWidth={1.9} /></span>
           <span class="block text-xl font-bold tracking-tight text-ink">Stany opakowań</span>
-          <span class="mt-1 block text-sm text-slate-500">53 pojemniki u 4 dostawców</span>
+          <span class="mt-1 block text-sm text-slate-500">{allContainers.length} pojemników u 4 dostawców</span>
           <span class="absolute bottom-5 right-5 grid h-10 w-10 place-items-center rounded-full bg-paper text-ink transition group-hover:bg-ink group-hover:text-white"><ArrowRight size={19} /></span>
         </button>
       </div>
@@ -143,7 +107,7 @@
           <h1 class="mt-1.5 text-2xl font-bold tracking-tight text-ink">Opakowania według dostawców</h1>
           <p class="mt-1 max-w-md text-sm text-slate-500">Widoczni są tylko dostawcy, których pojemniki znajdują się na magazynach Chespa.</p>
         </div>
-        <div class="flex w-fit items-baseline gap-2 rounded-xl bg-signal px-4 py-2.5 text-white"><span class="font-mono text-2xl font-bold leading-none">53</span><span class="text-[11px] text-white/80">pojemniki łącznie</span></div>
+        <div class="flex w-fit items-baseline gap-2 rounded-xl bg-signal px-4 py-2.5 text-white"><span class="font-mono text-2xl font-bold leading-none">{allContainers.length}</span><span class="text-[11px] text-white/80">pojemników łącznie</span></div>
       </div>
       <label class="mb-4 flex h-12 items-center gap-3 rounded-xl border border-steel bg-white px-4 shadow-sm transition focus-within:border-signal focus-within:ring-2 focus-within:ring-signal/20">
         <Search size={18} class="shrink-0 text-slate-400" /><input bind:value={search} class="min-w-0 flex-1 border-0 bg-transparent p-0 text-sm text-ink outline-none placeholder:text-slate-400" placeholder="Szukaj dostawcy lub kodu" />
@@ -160,8 +124,9 @@
             {#if expandedSupplier === supplier.id}
               <div class="border-t border-steel/70 bg-paper/60 px-4 py-3 sm:px-5">
                 {#each supplier.types as type}
-                  <div class="flex items-center gap-3 border-b border-steel/60 py-3 last:border-0">
-                    <Container size={17} class="shrink-0 text-slate-400" /><div class="min-w-0 flex-1"><p class="truncate text-sm font-medium text-ink">{type.name}</p><p class="font-mono text-[10px] uppercase text-slate-400">{type.index}</p></div><span class="rounded-lg bg-white px-2.5 py-1 font-mono text-sm font-bold text-ink ring-1 ring-steel">{type.count}</span>
+                  <div class="flex items-start gap-3 border-b border-steel/60 py-3 last:border-0">
+                    <Container size={17} class="mt-1 shrink-0 text-slate-400" />
+                    <div class="min-w-0 flex-1"><p class="truncate text-sm font-medium text-ink">{type.name}</p><p class="font-mono text-[10px] uppercase text-slate-400">{type.index}</p><div class="mt-2 grid gap-1 sm:grid-cols-2">{#each allContainers.filter((item) => item.supplierId === supplier.id && item.index === type.index) as item}<span class="font-mono text-[10px] text-slate-500">{item.serial} · {item.warehouse} · seria {item.series}</span>{/each}</div></div>
                   </div>
                 {/each}
                 <Button variant="ghost" class="mt-3 w-full" onclick={() => startReturn(supplier.id)}>Rozpocznij zwrot dla tego dostawcy</Button>
@@ -221,12 +186,20 @@
             {#if scanned.length > 0}<p class="mt-2 flex items-center gap-1.5 text-xs text-slate-500"><Info size={14} class="shrink-0" /> Dostawca został zablokowany po dodaniu pierwszego pojemnika.</p>{/if}
           </section>
 
-          <section class="overflow-hidden rounded-2xl border border-steel bg-white shadow-sm">
-            <div class="flex items-center gap-3 p-4 sm:px-5">
+          <section class="rounded-2xl border border-steel bg-white p-4 shadow-sm sm:p-5">
+            <div class="flex items-center gap-3">
               <span class="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-signal font-mono text-xs font-bold text-white">2</span>
-              <div><p class="text-sm font-semibold text-ink">Skanuj pojemniki</p><p class="text-xs text-slate-400">Zebra wprowadzi kod w aktywne pole. Możesz też wpisać numer ręcznie.</p></div>
+              <div><p class="text-sm font-semibold text-ink">Dodaj pojemniki</p><p class="text-xs text-slate-400 mb-8">Skanuj kod albo wybierz dostępne pojemniki z listy.</p></div>
             </div>
-            <div class="relative bg-chespa-deep p-4 sm:p-5">
+            {#if supplierId}
+              <div class="mt-4 grid grid-cols-2 rounded-xl bg-paper p-1 lg:hidden">
+                <button onclick={() => returnTab = 'scan'} class={`min-h-10 rounded-lg text-xs font-semibold transition ${returnTab === 'scan' ? 'bg-white text-ink shadow-sm' : 'text-slate-500'}`}>Skanuj kod</button>
+                <button onclick={() => returnTab = 'list'} class={`min-h-10 rounded-lg text-xs font-semibold transition ${returnTab === 'list' ? 'bg-white text-ink shadow-sm' : 'text-slate-500'}`}>Wybierz z listy</button>
+              </div>
+            {/if}
+
+          <div class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-2">
+            <section class={`relative overflow-hidden rounded-2xl bg-chespa-deep p-4 shadow-sm sm:p-5 lg:block ${supplierId ? '' : 'lg:col-span-2'} ${returnTab === 'scan' ? '' : 'hidden'}`}>
               <form onsubmit={(event) => { event.preventDefault(); addScan(); }}>
                 <div class="scan-field flex min-h-14 items-center gap-3 rounded-xl bg-white px-4 shadow-inner">
                   <div class="scan-beam"></div>
@@ -235,30 +208,32 @@
                   <button type="submit" aria-label="Dodaj pojemnik" class="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-signal text-white transition hover:bg-signal-deep active:scale-95"><Plus size={20} /></button>
                 </div>
               </form>
-              <p class="mt-2.5 font-mono text-[11px] text-white/45">Kody demonstracyjne: IBC-NC-240021 · PAL-NC-000774</p>
-            </div>
-            {#if scanError}<div class="flex gap-2 border-b border-red-100 bg-red-50 px-4 py-3 text-xs leading-relaxed text-red-700 sm:px-5"><TriangleAlert size={16} class="mt-0.5 shrink-0" />{scanError}</div>{/if}
-            <div class="p-4 sm:p-5">
-              <div class="mb-3 flex items-center justify-between">
-                <p class="text-sm font-semibold text-ink">Dodane pojemniki</p>
-                <span class="rounded-full bg-ink px-2.5 py-0.5 font-mono text-xs font-bold text-white">{scanned.length}</span>
-              </div>
-              {#if scanned.length === 0}
-                <div class="grid min-h-32 place-items-center rounded-xl border border-dashed border-steel bg-paper/70 text-center">
-                  <div><Barcode size={26} class="mx-auto mb-2 text-slate-300" /><p class="text-sm font-medium text-slate-500">Lista jest pusta</p><p class="text-xs text-slate-400">Zeskanuj pierwszy pojemnik</p></div>
+              <p class="mt-2.5 font-mono text-[11px] text-white/45">Przykładowy kod: IBC-NC-240021</p>
+            </section>
+
+            {#if supplierId}
+              <section class={`rounded-2xl border border-steel bg-white p-4 shadow-sm sm:p-5 lg:block ${returnTab === 'list' ? '' : 'hidden'}`}>
+                <div class="mb-3 flex items-center justify-between">
+                  <div><p class="text-sm font-semibold text-ink">Dostępne pojemniki</p><p class="text-xs text-slate-400">{activeSupplier?.name}</p></div>
+                  <span class="font-mono text-xs text-slate-500">{availableContainers.length}</span>
                 </div>
-              {:else}
-                <ul class="space-y-2">
-                  {#each scanned as item, index}
-                    <li class="pop flex items-center gap-3 rounded-xl border border-steel/70 bg-paper/70 p-3">
-                      <span class="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-white font-mono text-xs font-bold text-slate-400 ring-1 ring-steel">{index + 1}</span>
-                      <div class="min-w-0 flex-1"><p class="truncate text-sm font-semibold text-ink">{item.name}</p><p class="truncate font-mono text-[10px] uppercase text-slate-400">{item.serial} · {item.index} · mag. {item.warehouse}</p></div>
-                      <button onclick={() => removeScan(item.serial)} aria-label={`Usuń ${item.serial}`} class="grid h-9 w-9 shrink-0 place-items-center rounded-lg text-slate-400 transition hover:bg-red-50 hover:text-red-600"><Trash2 size={16} /></button>
-                    </li>
-                  {/each}
-                </ul>
-              {/if}
-            </div>
+                {#if availableContainers.length > 0}
+                  <div class="max-h-60 space-y-2 overflow-y-auto">
+                    {#each availableContainers as item}
+                      <label class="flex cursor-pointer items-center gap-3 rounded-xl border border-steel bg-paper/50 p-3 transition has-[:checked]:border-signal has-[:checked]:bg-signal/5">
+                        <input type="checkbox" value={item.serial} bind:group={selectedExisting} class="h-4 w-4 rounded border-steel text-signal focus:ring-signal" />
+                        <span class="min-w-0 flex-1"><span class="block truncate font-mono text-xs font-semibold text-ink">{item.serial}</span><span class="block truncate text-[10px] text-slate-400">{item.name} · mag. {item.warehouse} · seria {item.series}</span></span>
+                      </label>
+                    {/each}
+                  </div>
+                  <Button class="mt-3 w-full" disabled={selectedExisting.length === 0} onclick={addSelected}>Dodaj zaznaczone ({selectedExisting.length})</Button>
+                {:else}
+                  <p class="rounded-xl border border-dashed border-steel p-4 text-center text-xs text-slate-400">Wszystkie dostępne pojemniki są już dodane.</p>
+                {/if}
+              </section>
+            {/if}
+          </div>
+          {#if scanError}<div class="flex gap-2 rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-xs leading-relaxed text-red-700"><TriangleAlert size={16} class="mt-0.5 shrink-0" />{scanError}</div>{/if}
           </section>
         </div>
 
@@ -273,10 +248,30 @@
           <dl class="space-y-3 text-xs">
             <div class="flex justify-between gap-3"><dt class="text-white/50">Dostawca</dt><dd class="truncate text-right font-semibold">{activeSupplier?.name ?? 'Nie wybrano'}</dd></div>
             <div class="flex justify-between"><dt class="text-white/50">Dokument</dt><dd class="font-mono font-semibold">ZD · wersja robocza</dd></div>
-            <div class="flex justify-between"><dt class="text-white/50">Magazyn docelowy</dt><dd class="font-mono font-semibold">M-ZWROTY</dd></div>
+            <div class="flex justify-between"><dt class="text-white/50">Magazyn źródłowy</dt><dd class="font-mono font-semibold">M-ZWROTY</dd></div>
           </dl>
           <Button class="mt-6 w-full" disabled={!activeSupplier || scanned.length === 0} onclick={() => showFinish = true}>Zamknij wydanie</Button>
           <button onclick={() => { toast = 'Wydanie zapisane. Możesz wrócić do niego później.'; setTimeout(() => toast = '', 2200); }} class="mt-3 w-full rounded-lg py-1.5 text-center text-xs font-semibold text-white/65 transition hover:text-white">Zapisz i dokończ później</button>
+
+          <div class="mt-5 border-t border-white/10 pt-4">
+            <div class="mb-3 flex items-center justify-between">
+              <p class="text-sm font-semibold">Dodane pojemniki</p>
+              <span class="rounded-full bg-white/10 px-2.5 py-0.5 font-mono text-xs font-bold text-white">{scanned.length}</span>
+            </div>
+            {#if scanned.length === 0}
+              <div class="rounded-xl border border-dashed border-white/15 px-3 py-5 text-center"><Barcode size={22} class="mx-auto mb-2 text-white/25" /><p class="text-xs text-white/50">Dodaj pierwszy pojemnik</p></div>
+            {:else}
+              <ul class="space-y-2">
+                {#each scanned as item, index}
+                  <li class="pop flex items-center gap-3 rounded-xl bg-white/10 p-3">
+                    <span class="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-white/10 font-mono text-[11px] font-bold text-white/65">{index + 1}</span>
+                    <div class="min-w-0 flex-1"><p class="truncate text-xs font-semibold">{item.name}</p><p class="truncate font-mono text-[9px] uppercase text-white/45">{item.serial} · mag. {item.warehouse} · seria {item.series}</p></div>
+                    <button onclick={() => removeScan(item.serial)} aria-label={`Usuń ${item.serial}`} class="grid h-8 w-8 shrink-0 place-items-center rounded-lg text-white/45 transition hover:bg-white/10 hover:text-white"><Trash2 size={15} /></button>
+                  </li>
+                {/each}
+              </ul>
+            {/if}
+          </div>
         </aside>
       </div>
     </main>
