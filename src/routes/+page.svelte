@@ -57,7 +57,7 @@
 </script>
 
 <svelte:head>
-  <title>Chespa ST · Opakowania zwrotne</title>
+  <title>DEMO Dostawca· Opakowania zwrotne</title>
   <meta name="description" content="Makieta obsługi opakowań zwrotnych dostawców" />
 </svelte:head>
 

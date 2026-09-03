@@ -6,7 +6,7 @@
 </script>
 
 <svelte:head>
-  <title>Chespa ST · Logowanie</title>
+  <title>DEMO Dostawca · Logowanie</title>
   <meta name="description" content="Logowanie do obsługi opakowań zwrotnych dostawców" />
 </svelte:head>
 
