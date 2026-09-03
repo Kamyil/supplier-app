@@ -354,7 +354,7 @@
       </section>
     </div>
   {/if}
-  <div class="fixed bottom-3 right-3 z-40 flex items-center gap-2 rounded-lg border border-steel/80 bg-white/90 px-3 py-2 shadow-sm backdrop-blur">
+  <div class="fixed bottom-20 right-3 z-40 flex items-center gap-2 rounded-lg border border-steel/80 bg-white/90 px-3 py-2 shadow-sm backdrop-blur lg:bottom-3">
     <span class="text-[10px] font-medium text-slate-400">Powered by</span>
     <img src="/images/mccom-logo.png" alt="MCCOM" class="h-4 w-auto" />
   </div>
