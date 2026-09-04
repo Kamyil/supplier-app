@@ -112,7 +112,7 @@
         <div>
           <p class="text-[10px] font-semibold uppercase tracking-[.18em] text-signal">Stan na teraz</p>
           <h1 class="mt-1.5 text-2xl font-bold tracking-tight text-ink">Opakowania według dostawców</h1>
-          <p class="mt-1 max-w-md text-sm text-slate-500">Widoczni są tylko dostawcy, których pojemniki znajdują się na magazynach Chespa.</p>
+          <p class="mt-1 max-w-md text-sm text-slate-500">Widoczni są tylko dostawcy, których pojemniki znajdują się na magazynach.</p>
         </div>
         <div class="flex w-fit items-baseline gap-2 rounded-xl bg-signal px-4 py-2.5 text-white"><span class="font-mono text-2xl font-bold leading-none">{allContainers.length}</span><span class="text-[11px] text-white/80">pojemników łącznie</span></div>
       </div>
@@ -206,7 +206,7 @@
             {/if}
 
           <div class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-2">
-            <section class={`relative overflow-hidden rounded-2xl bg-chespa-deep p-4 shadow-sm sm:p-5 lg:block ${supplierId ? '' : 'lg:col-span-2'} ${returnTab === 'scan' ? '' : 'hidden'}`}>
+            <section class={`relative overflow-hidden rounded-2xl bg-navy-deep p-4 shadow-sm sm:p-5 lg:block ${supplierId ? '' : 'lg:col-span-2'} ${returnTab === 'scan' ? '' : 'hidden'}`}>
               <form onsubmit={(event) => { event.preventDefault(); addScan(); }}>
                 <div class="scan-field flex min-h-14 items-center gap-3 rounded-xl bg-white px-4 shadow-inner">
                   <div class="scan-beam"></div>
@@ -260,7 +260,7 @@
           </section>
         </div>
 
-        <aside class="h-fit min-w-0 rounded-2xl bg-chespa p-5 text-white shadow-xl shadow-ink/20 lg:sticky lg:top-24">
+        <aside class="h-fit min-w-0 rounded-2xl bg-navy p-5 text-white shadow-xl shadow-ink/20 lg:sticky lg:top-24">
           <div class="flex items-start justify-between">
             <p class="text-[10px] font-semibold uppercase tracking-[.18em] text-white/50">Podsumowanie wydania</p>
             <Barcode size={16} class="text-white/30" />
@@ -358,9 +358,9 @@
   {/if}
 
   {#if showSuccess}
-    <div class="fixed inset-0 z-50 overflow-auto bg-chespa-deep p-5 text-white">
+    <div class="fixed inset-0 z-50 overflow-auto bg-navy-deep p-5 text-white">
       <section class="pop mx-auto w-full max-w-md py-10 text-center sm:py-16">
-        <div class="mx-auto grid h-20 w-20 place-items-center rounded-full bg-emerald-400 text-chespa-deep shadow-[0_0_0_10px_rgba(52,211,153,.15)]"><Check size={42} strokeWidth={3} /></div>
+        <div class="mx-auto grid h-20 w-20 place-items-center rounded-full bg-emerald-400 text-navy-deep shadow-[0_0_0_10px_rgba(52,211,153,.15)]"><Check size={42} strokeWidth={3} /></div>
         <p class="mt-6 text-[10px] font-semibold uppercase tracking-[.18em] text-emerald-300">Dokument ZD</p>
         <h2 class="mt-2 text-2xl font-bold tracking-tight">Wydanie zakończone</h2>
         <div class="ticks mx-auto mt-4 h-7 w-44 text-white/35"></div>

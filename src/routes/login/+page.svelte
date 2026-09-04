@@ -13,8 +13,8 @@
 <div class="grid min-h-screen place-items-center bg-paper px-4 py-10">
   <div class="w-full max-w-sm">
     <div class="mb-6 text-center">
-      <img src="/images/St-logo.png" alt="Chespa ST" class="mx-auto h-14 w-auto rounded-xl bg-white px-2.5 py-2.5 shadow-sm ring-1 ring-steel" />
-      <p class="mt-4 flex items-center justify-center gap-2 text-[10px] font-semibold uppercase tracking-[.18em] text-signal"><Barcode size={14} /> Chespa ST</p>
+      <div class="mx-auto grid h-14 w-14 place-items-center rounded-xl bg-navy text-white shadow-sm"><Barcode size={28} /></div>
+      <p class="mt-4 flex items-center justify-center gap-2 text-[10px] font-semibold uppercase tracking-[.18em] text-signal"><Barcode size={14} /> Demo dostawcy</p>
       <h1 class="mt-1.5 text-xl font-bold tracking-tight text-ink">Opakowania zwrotne</h1>
     </div>
 

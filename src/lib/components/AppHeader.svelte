@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { LogOut, RefreshCw } from 'lucide-svelte';
+  import { Barcode, LogOut, RefreshCw } from 'lucide-svelte';
   let {
     title = 'Opakowania zwrotne',
     user = null,
@@ -26,9 +26,9 @@
   }
 </script>
 
-<header class="sticky top-0 z-30 bg-chespa text-white shadow-lg shadow-chespa-deep/25">
+<header class="sticky top-0 z-30 bg-navy text-white shadow-lg shadow-navy-deep/25">
   <div class="mx-auto flex h-16 max-w-6xl items-center gap-3 px-4">
-    <img src="/images/St-logo.png" alt="Chespa ST" class="h-9 w-auto rounded-lg bg-white px-1.5 py-1.5" />
+    <div class="flex h-9 items-center gap-2 rounded-lg bg-white px-2.5 text-navy"><Barcode size={18} /><span class="text-xs font-bold tracking-[.16em]">DEMO</span></div>
     <div class="min-w-0 flex-1 border-l border-white/15 pl-3">
       <p class="truncate text-sm font-semibold leading-tight">{title}</p>
     </div>

@@ -31,8 +31,8 @@
 @theme {
   --font-sans: 'Poppins', ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, 'Cascadia Mono', 'Roboto Mono', 'SF Mono', Consolas, monospace;
-  --color-chespa: #141b26;
-  --color-chespa-deep: #0e1624;
+  --color-navy: #141b26;
+  --color-navy-deep: #0e1624;
   --color-signal: #f36f2a;
   --color-signal-deep: #d95a1a;
   --color-paper: #f2f4f8;

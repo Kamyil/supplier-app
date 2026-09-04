@@ -1,7 +1,7 @@
 {
   "name": "[DEV] ST DOK",
   "short_name": "[DEV] ST DOK",
-  "description": "[DEV] Aplikacja dev dla magazynierów Chespa",
+  "description": "[DEV] Aplikacja demo dla magazynierów",
   "start_url": "/dok-app/",
   "scope": "/dok-app/",
   "display": "standalone",
