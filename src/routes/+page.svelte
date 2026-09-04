@@ -31,6 +31,13 @@
     supplier.name.toLowerCase().includes(search.toLowerCase()) || supplier.code.toLowerCase().includes(search.toLowerCase())
   ));
   let availableContainers = $derived(allContainers.filter((item) => item.supplierId === supplierId && !scanned.some((current) => current.serial === item.serial)));
+  let availableContainerGroups = $derived(Object.values(
+    availableContainers.reduce<Record<string, { index: string; name: string; items: ScannedContainer[] }>>((groups, item) => {
+      const group = groups[item.index] ??= { index: item.index, name: item.name, items: [] };
+      group.items.push(item);
+      return groups;
+    }, {})
+  ));
   const titles: Record<View, string> = {
     home: 'Opakowania zwrotne', stocks: 'Stany opakowań', returns: 'Zwroty do dostawców', 'return-detail': 'Nowe wydanie'
   };
@@ -213,22 +220,38 @@
 
             {#if supplierId}
               <section class={`rounded-2xl border border-steel bg-white p-4 shadow-sm sm:p-5 lg:block ${returnTab === 'list' ? '' : 'hidden'}`}>
-                <div class="mb-3 flex items-center justify-between">
-                  <div><p class="text-sm font-semibold text-ink">Dostępne pojemniki</p><p class="text-xs text-slate-400">{activeSupplier?.name}</p></div>
-                  <span class="font-mono text-xs text-slate-500">{availableContainers.length}</span>
+                <div class="mb-3 flex items-start justify-between gap-3">
+                  <div>
+                    <p class="text-sm font-semibold text-ink">Dostępne serie</p>
+                    <p class="text-xs text-slate-400">{activeSupplier?.name} · pogrupowane według indeksu</p>
+                  </div>
+                  <span class="shrink-0 font-mono text-xs text-slate-500">{availableContainers.length} ser.</span>
                 </div>
-                {#if availableContainers.length > 0}
-                  <div class="max-h-60 space-y-2 overflow-y-auto">
-                    {#each availableContainers as item}
-                      <label class="flex cursor-pointer items-center gap-3 rounded-xl border border-steel bg-paper/50 p-3 transition has-[:checked]:border-signal has-[:checked]:bg-signal/5">
-                        <input type="checkbox" value={item.serial} bind:group={selectedExisting} class="h-4 w-4 rounded border-steel text-signal focus:ring-signal" />
-                        <span class="min-w-0 flex-1"><span class="block truncate font-mono text-xs font-semibold text-ink">{item.serial}</span><span class="block truncate text-[10px] text-slate-400">{item.name} · mag. {item.warehouse} · seria {item.series}</span></span>
-                      </label>
+                {#if availableContainerGroups.length > 0}
+                  <div class="max-h-72 space-y-3 overflow-y-auto pr-1">
+                    {#each availableContainerGroups as group}
+                      <div class="overflow-hidden rounded-xl border border-steel">
+                        <div class="bg-surface-2 px-3 py-2.5">
+                          <span class="block text-xs font-semibold text-ink">{group.name}</span>
+                          <span class="mt-0.5 block font-mono text-[10px] text-slate-500">Indeks {group.index}</span>
+                        </div>
+                        <div class="divide-y divide-steel bg-white">
+                          {#each group.items as item}
+                            <label class="flex cursor-pointer items-center gap-3 px-3 py-2.5 transition has-[:checked]:bg-signal/5">
+                              <input type="checkbox" value={item.serial} bind:group={selectedExisting} class="h-4 w-4 shrink-0 rounded border-steel text-signal focus:ring-signal" />
+                              <span class="min-w-0 flex-1">
+                                <span class="block font-mono text-xs font-semibold text-ink">Seria {item.series}</span>
+                                <span class="block truncate text-[10px] text-slate-400">{item.serial} · mag. {item.warehouse}</span>
+                              </span>
+                            </label>
+                          {/each}
+                        </div>
+                      </div>
                     {/each}
                   </div>
-                  <Button class="mt-3 w-full" disabled={selectedExisting.length === 0} onclick={addSelected}>Dodaj zaznaczone ({selectedExisting.length})</Button>
+                  <Button class="mt-3 w-full" disabled={selectedExisting.length === 0} onclick={addSelected}>Dodaj zaznaczone serie ({selectedExisting.length})</Button>
                 {:else}
-                  <p class="rounded-xl border border-dashed border-steel p-4 text-center text-xs text-slate-400">Wszystkie dostępne pojemniki są już dodane.</p>
+                  <p class="rounded-xl border border-dashed border-steel p-4 text-center text-xs text-slate-400">Wszystkie dostępne serie są już dodane.</p>
                 {/if}
               </section>
             {/if}
