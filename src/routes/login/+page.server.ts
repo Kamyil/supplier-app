@@ -4,7 +4,7 @@ import type { Actions, PageServerLoad } from './$types';
 // Hardcoded demo account — makieta, bez prawdziwego backendu.
 const accounts = [
   { login: 'admin', password: 'chespa123', name: 'Administrator ST', role: 'Magazynier · M01' },
-  { login: 'demo', password: 'demo123', name: 'Użytkownik demo', role: 'Magazynier · M01' }
+  { login: 'demo', password: 'demo123', name: 'Demo User', role: 'Magazynier · M01' }
 ];
 
 export const load: PageServerLoad = ({ locals }) => {
